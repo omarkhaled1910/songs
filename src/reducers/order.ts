@@ -6,16 +6,21 @@ import {
 } from "./../data";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
+import { calculatePrice } from "../utils";
 
-// Define a type for the slice state
-interface Order {
-  orderId: number;
+type UserData = {
+  name: string;
+  email: string;
+  phone: string;
+};
+export interface OrderForm {
   singerIds: number[];
   albumIds: number[];
   songsIds: number[];
   price: number;
   filteredAlbums: TAlbum[];
   filteredSongs: { songs: TSong[]; albumName: string }[];
+  userInfo: UserData;
 }
 const handleToggle = (arr: number[], newId: number) => {
   const newArray = arr.includes(newId)
@@ -25,20 +30,22 @@ const handleToggle = (arr: number[], newId: number) => {
   return newArray;
 };
 
-// Define the initial state using that type
-const initialState: Order = {
-  orderId: 0,
+const initialState: OrderForm = {
   price: 0,
   singerIds: [],
   albumIds: [],
   songsIds: [],
   filteredAlbums: [],
   filteredSongs: [],
+  userInfo: {
+    name: "",
+    email: "",
+    phone: "",
+  },
 };
 
-export const OrderSlice = createSlice({
-  name: "counter",
-  // `createSlice` will infer the state type from the `initialState` argument
+export const OrderFormSlice = createSlice({
+  name: "songOrderForm",
   initialState,
   reducers: {
     setSingersIds: (state, action: PayloadAction<number>) => {
@@ -46,23 +53,70 @@ export const OrderSlice = createSlice({
 
       state.singerIds = newSingersIds;
       state.filteredAlbums = getAlbumsBySingerIds(newSingersIds);
+      state.price = calculatePrice({ ...state, singerIds: newSingersIds });
     },
     setAlbumsIds: (state, action: PayloadAction<number>) => {
       const newAlbumsIds = handleToggle(state.albumIds, action.payload);
 
       state.albumIds = newAlbumsIds;
       state.filteredSongs = getSongsByAlbumsIds(newAlbumsIds);
+      state.price = calculatePrice({ ...state, albumIds: newAlbumsIds });
     },
     setSongsIds: (state, action: PayloadAction<number>) => {
       const newSongsIds = handleToggle(state.songsIds, action.payload);
-
       state.songsIds = newSongsIds;
+      state.price = calculatePrice({ ...state, songsIds: newSongsIds });
+    },
+    setBulkSongsIds: (state, action: PayloadAction<number[]>) => {
+      state.songsIds = action.payload;
+    },
+    setBulkSingersIds: (state, action: PayloadAction<number[]>) => {
+      state.singerIds = action.payload;
+      state.filteredAlbums = getAlbumsBySingerIds(action.payload);
+    },
+    setBulkAlbumsIds: (state, action: PayloadAction<number[]>) => {
+      state.albumIds = action.payload;
+      state.filteredSongs = getSongsByAlbumsIds(action.payload);
+    },
+    setPrice: (state, action: PayloadAction<number>) => {
+      state.price = action.payload;
+    },
+
+    setUserInfo: (
+      state,
+      action: PayloadAction<{ key: string; val: string }>
+    ) => {
+      state.userInfo = {
+        ...state.userInfo,
+        [action.payload.key]: action.payload.val,
+      };
+    },
+    resetForm: (state) => {
+      state.singerIds = [];
+      state.albumIds = [];
+      state.songsIds = [];
+      state.filteredAlbums = [];
+      state.filteredSongs = [];
+      state.price = 0;
+      state.userInfo = {
+        name: "",
+        email: "",
+        phone: "",
+      };
     },
   },
 });
 
-export const { setAlbumsIds, setSingersIds, setSongsIds } = OrderSlice.actions;
+export const {
+  setAlbumsIds,
+  setSingersIds,
+  setSongsIds,
+  setUserInfo,
+  resetForm,
+  setBulkSongsIds,
+  setBulkAlbumsIds,
+  setBulkSingersIds,
+  setPrice,
+} = OrderFormSlice.actions;
 
-// Other code such as selectors can use the imported `RootState` type
-
-export default OrderSlice.reducer;
+export default OrderFormSlice.reducer;

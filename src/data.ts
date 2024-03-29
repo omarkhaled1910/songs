@@ -186,7 +186,7 @@ export const getAlbumsBySingerIds = (singerIds: number[]) => {
   const albums: TAlbum[] = [];
   singerIds.forEach((singerId) => {
     const singer = singerMap.get(singerId);
-    singer.albums.length && albums.push(...singer.albums);
+    singer?.albums.length && albums.push(...singer.albums);
   });
 
   return albums;
@@ -197,7 +197,7 @@ export const getSongsByAlbumsIds = (albumIds: number[]) => {
   const songs: any[] = [];
   albumIds.forEach((albumId) => {
     const album = albumsMap.get(albumId);
-    album.songs.length &&
+    album?.songs.length &&
       songs.push({ albumName: album.name, songs: [...album.songs] });
   });
   return songs;

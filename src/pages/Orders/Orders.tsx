@@ -2,9 +2,19 @@ import { Box, Button, Paper, Stack, Typography } from "@mui/material";
 import OrderCard from "./components/OrderCard";
 import { Add } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../store";
+import { useEffect } from "react";
+import { resetForm } from "../../reducers/order";
 
 const Orders = () => {
   const navigate = useNavigate();
+  const { orders } = useSelector((state: RootState) => state.orders);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(resetForm());
+  }, []);
+
   return (
     <Box p={5}>
       <Stack
@@ -35,8 +45,8 @@ const Orders = () => {
           gap: 6,
         }}
       >
-        {Array.from({ length: 30 })?.map((_, i) => (
-          <OrderCard key={i} order={{ id: i }} />
+        {orders.map((order, i) => (
+          <OrderCard key={i} order={{ id: order.orderId, ...order }} />
         ))}
       </Paper>
     </Box>

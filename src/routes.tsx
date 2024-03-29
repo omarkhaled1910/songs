@@ -9,10 +9,10 @@ export const router = createBrowserRouter([
   },
   {
     path: "/add",
-    element: <SongsOrder />,
+    element: <SongsOrder key={"add"} />,
   },
   {
     path: "/edit/:id",
-    element: <SongsOrder />,
+    element: <SongsOrder key={"edit"} />,
   },
 ]);

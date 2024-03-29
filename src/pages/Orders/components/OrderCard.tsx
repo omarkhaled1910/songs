@@ -1,7 +1,8 @@
 import { Box, Stack, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { OrderForm } from "../../../reducers/order";
 
-const OrderCard = ({ order }: { order: any }) => {
+const OrderCard = ({ order }: { order: Partial<OrderForm & { id: any }> }) => {
   const navigate = useNavigate();
   return (
     <Box
@@ -30,10 +31,10 @@ const OrderCard = ({ order }: { order: any }) => {
           justifyContent={"space-between"}
         >
           <Typography variant="body1" color="text.tertiary">
-            Users
+            Songs
           </Typography>
           <Typography mr={"10px"} variant="body1">
-            25
+            {order.songsIds?.length || 0}
           </Typography>
         </Stack>
 
@@ -43,10 +44,36 @@ const OrderCard = ({ order }: { order: any }) => {
           justifyContent={"space-between"}
         >
           <Typography variant="body1" color="text.tertiary">
-            Policies
+            Albums
           </Typography>
           <Typography mr={"10px"} variant="body1">
-            10
+            {order.albumIds?.length || 0}
+          </Typography>
+        </Stack>
+
+        <Stack
+          direction="row"
+          alignItems={"center"}
+          justifyContent={"space-between"}
+        >
+          <Typography variant="body1" color="text.tertiary">
+            Singers
+          </Typography>
+          <Typography mr={"10px"} variant="body1">
+            {order.singerIds?.length || 0}
+          </Typography>
+        </Stack>
+
+        <Stack
+          direction="row"
+          alignItems={"center"}
+          justifyContent={"space-between"}
+        >
+          <Typography variant="body1" color="text.tertiary">
+            Price
+          </Typography>
+          <Typography mr={"10px"} variant="body1">
+            {order.price || 0} $
           </Typography>
         </Stack>
       </Stack>

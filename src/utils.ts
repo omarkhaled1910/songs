@@ -6,9 +6,7 @@ import { OrderForm } from "./reducers/order";
 // of the slected singers songs
 export const calculatePrice = (state: OrderForm) => {
   let price = 0;
-  console.log(state, "from calculate");
   if (state.songsIds.length !== 0) {
-    console.log("inside songs");
     singersData.forEach((singer) =>
       singer.albums.forEach((album) =>
         album.songs.forEach((song) => {

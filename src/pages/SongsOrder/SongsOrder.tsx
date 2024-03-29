@@ -40,10 +40,6 @@ const SongsOrder = () => {
   const handleNext = useCallback(() => {
     setSelectedStep((old) => {
       if (old === 4) {
-        console.log(
-          { singerIds, albumIds, songsIds, userInfo, price },
-          "before add"
-        );
         const newOrder = { singerIds, albumIds, songsIds, userInfo, price };
         dispatch(id ? editOrder({ ...newOrder, id }) : addOrder(newOrder));
         navigate("/");

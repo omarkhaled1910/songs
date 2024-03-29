@@ -18,14 +18,12 @@ export const OrderSlice = createSlice({
       );
     },
     addOrder: (state, action: PayloadAction<any>) => {
-      console.log({ ...action.payload, id: uuidv4() });
       state.orders = [...state.orders, { ...action.payload, id: uuidv4() }];
     },
     editOrder: (state, action: PayloadAction<any>) => {
       const newOrders = state.orders.map((order) =>
         order.id === action.payload.id ? { ...action.payload } : order
       );
-      console.log(newOrders, action.payload);
       state.orders = newOrders;
     },
   },

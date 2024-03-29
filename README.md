@@ -1,5 +1,5 @@
 
-# this task should run on preferably node v16 , there is add and edit the price is caluclated as following if there is songs it calculate ONLY the cost of songs and this goes on for albums as well
+# this task should run preferably on node v16 , there is add and edit the price is caluclated as following if there is songs it calculate ONLY the cost of songs and this goes on for albums as well
 # all you need to do is npm i then npm run dev
 
 # React + TypeScript + Vite

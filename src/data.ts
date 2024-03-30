@@ -198,7 +198,11 @@ export const getSongsByAlbumsIds = (albumIds: number[]) => {
   albumIds.forEach((albumId) => {
     const album = albumsMap.get(albumId);
     album?.songs.length &&
-      songs.push({ albumName: album.name, songs: [...album.songs] });
+      songs.push({
+        id: album.id,
+        albumName: album.name,
+        songs: [...album.songs],
+      });
   });
   return songs;
 };
